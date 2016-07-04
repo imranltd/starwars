@@ -83,14 +83,16 @@
 											}
 										});
 									});
-								});
+								})
+								.finally(stopLoading);
 							} else {
-								vm.nextPage = null,
+								vm.nextPage = null;
 								vm.people = firstTenResults;
 
+								stopLoading();
+
 							}
-						})
-						.finally(stopLoading);						
+						});					
 				};
 
 
