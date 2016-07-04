@@ -26,34 +26,38 @@
 				return $window._;
 			}
 		])
-		.controller('starwarsController', ['$scope', 'Restangular', '_', '$state', '$http',
-			function($scope, Restangular, _, $state, $http){
+		.controller('starwarsController', ['$scope', 'Restangular', '_', '$state',
+			function($scope, Restangular, _, $state){
+				
 				$state.transitionTo('index.details');
-				var vm = this;
 
+				var vm = this;
 				vm.loading = 'true';
 				
-				
-				
-
 				activate = function(){
+					vm.shareMe = shareMe;
+					vm.getNextPage = getNextPage;
+					vm.getPreviousPage = getPreviousPage;
+
+					vm.LoadPreviousPage = LoadPreviousPage;
+					vm.LoadNextPage = LoadNextPage;
+
+					vm.getPersonDetails = getPersonDetails;
 					
 					loadPage();
 				};
 
-				vm.LoadNextPage = function(){
-					//vm.loading = true;
-					console.log('nextPage: ' + vm.nextPage);
+				var LoadNextPage = function(){
 					loadPage(vm.nextPage);
 				};
 
-				vm.LoadPreviousPage = function(){
+				var LoadPreviousPage = function(){
 					//$scope..loading = true;
 					console.log('previousPage ' + vm.previousPage);
 					loadPage(vm.previousPage);
 				};
 
-				loadPage = function(pageNum){
+				var loadPage = function(pageNum){
 					var firstTenResults;
 
 					vm.loading = true;
@@ -65,7 +69,6 @@
 							firstTenResults = data.plain().results;
 						})
 						.then(function(){
-
 							Restangular.one("api").customGET("people", {page: vm.nPage})
 							.then(function(data2){
 								vm.nextPage = getNextPage(data2.next);
@@ -78,7 +81,6 @@
 											objv.personId = a[5];
 										}
 									});
-
 								});
 							})
 							.finally(stopLoading);
@@ -95,16 +97,16 @@
 						return (nextPageNum) ? nextPageNum[1] : null;
 				};
 
-				getPreviousPage = function (previousPageLink){
+				var getPreviousPage = function (previousPageLink){
 					var previousPageUrl = previousPageLink,
 						previousPageObj = (previousPageUrl) ? previousPageUrl.split("?") : null,
 						previousPageNum = (previousPageObj) ? previousPageObj[1].split("=") : null;
 
 						return (previousPageNum) ? previousPageNum[1]-1 : null;
 				};
-				$scope.getPersonDetails = function(personId){
+				var getPersonDetails = function(personId){
 					vm.loadingDetails = true;
-					console.log('personId'+personId);
+
 					$state.params.personId = personId;
 
 					Restangular.one("api", "people").customGET(personId+'/', {format:'json'})
@@ -120,13 +122,9 @@
 											'starships',
 											'created',
 											'edited',
-											'url'
-											];
+											'url'];
 
 						vm.personDetail = _.omit(angular.fromJson(response.plain()), removedItems);
-
-
-
 					})
 					.finally(function(){
 						vm.loadingDetails = false;
@@ -135,14 +133,10 @@
 
 				};
 
-				stopLoading = function(){
-					console.log('stopped loading');
+				var stopLoading = function(){
 					vm.loading = false;
-					console.log(vm.loading);
 				};
 				var shareMe = function(person){
-					console.dir($state);
-
 					var payload = {
 									'userId'		: 10, 
 									'userName' 		: 'Imran',
@@ -152,12 +146,11 @@
 													}
 								};
 
-					//alert('Dummy payload:');
+					alert('See console log for payload');
 					console.log(payload);
 				};
 
-				vm.shareMe = shareMe;
-				vm.getNextPage = getNextPage;
+
 
 				activate();	 
 			}
@@ -177,15 +170,6 @@
 				console.dir($routeParams);
 			}
 		])
-		.controller('myCtrl', function($scope, $http) {
-			//console.log($scope)
-  			$http.get("http://swapi.co/api/people/1")
-  				.then(function(response) {
-      				$scope.myWelcome = response.data;
-
-      				console.log($scope.myWelcome.eye_color);
-  				});
-		})
 		.directive('starwarsSearch', function() {
 			return {
 				restrict: 'E',
