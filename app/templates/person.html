@@ -1,0 +1,18 @@
+<section ng-if="vm.loadingDetails">
+	<span class="glyphicon glyphicon-refresh spinning"></span> Loading please wait...
+</section>
+<section ng-if="!vm.loadingDetails">
+	<ul class="list-unstyled"
+		ng-repeat="(key, value) in vm.personDetail">
+		<li>
+			<strong>{{key.replace("_", " ") | capitalize}}: </strong>
+			{{value}}
+		</li>
+	</ul>
+	<span class="icon-input-btn">
+		<span class="glyphicon glyphicon-heart"></span> 
+			<button class="btn btn-default btn-sm" ng-click="vm.shareMe(vm.personDetail)">
+				Add to favorites
+			</button>
+	</span>
+</section>

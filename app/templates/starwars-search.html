@@ -1,0 +1,39 @@
+<section>
+	<div class="form-group has-feedback input-group input-group">
+		<label class="control-label sr-only">Search</label>
+		<input type="search" class="form-control" placeholder="Search" data-ng-model="search" />
+		<i class="glyphicon glyphicon-search form-control-feedback"></i>
+	</div>
+</section>
+						
+<section ng-if="vm.loading">
+	<span class="glyphicon glyphicon-refresh spinning"></span> Loading please wait...
+</section>
+
+<section ng-if="!vm.loading">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	  <div class="panel panel-default"
+	  	ng-repeat="Person in vm.people | filter:search">
+	    <div class="panel-heading" role="tab" id="headingOne">
+	      <h4 class="panel-title">
+	        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{Person.personId}}" aria-expanded="true" aria-controls="collapse{{Person.personId}}"
+	        ng-click="getPersonDetails(Person.personId)">
+	          {{Person.name}}
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapse{{Person.personId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{Person.personId}}">
+	      <div class="panel-body">
+	        <div ui-view></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<button 
+		ng-if="vm.previousPage"
+		ng-click="vm.LoadPreviousPage()">Previous page</button>
+	<button 
+		ng-if="vm.nextPage"
+		ng-click="vm.LoadNextPage()">Next page</button>
+
+</section>

@@ -1,0 +1,30 @@
+$blue: blue;
+
+.yellow{
+	color: $blue;
+}
+.bold{
+	font-weight:bold;
+}
+
+#starwars-app {
+	margin-top:20px;
+	h3{
+		color: $blue;
+	}
+}
+
+
+.icon-input-btn{
+        display: inline-block;
+        position: relative;
+    }
+    .icon-input-btn button{
+        padding-left: 2em;
+    }
+    .icon-input-btn .glyphicon{
+        display: inline-block;
+        position: absolute;
+        left: 0.65em;
+        top: 30%;
+    }

@@ -1,0 +1,35 @@
+{
+  "name": "starwars",
+  "version": "1.0.0",
+  "description": "StarWars App",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imranltd/starwars.git"
+  },
+  "author": "Imran Sarwar",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-jshint": "^2.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-util": "^3.0.7",
+    "gulp-webserver": "^0.9.1",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-route": "^1.5.7",
+    "angular-ui-router": "^0.3.1",
+    "bootstrap": "^3.3.6",
+    "jquery": "^1.11.3",
+    "lodash": "^4.13.1",
+    "restangular": "^1.5.2"
+  }
+}
