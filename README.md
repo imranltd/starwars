@@ -45,5 +45,6 @@ Live Demo: http://imransarwar.co.uk/starwars/
 * Bootstrap
 * RestAngular
 * Angular UI Router
+* Lodash
 * Sass
 * Gulp
