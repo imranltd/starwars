@@ -68,24 +68,29 @@
 							firstTenResults = data.plain().results;
 						})
 						.then(function(){
-							Restangular.one("api").customGET("people", {page: vm.nPage})
-							.then(function(data2){
-								vm.nextPage = getNextPage(data2.next);
-								vm.nextPage = (vm.previousPage > vm.nextPage) ? null : vm.nextPage;
-								vm.people = _.concat(firstTenResults, data2.plain().results);
+							if (vm.nPage) {
+								Restangular.one("api").customGET("people", {page: vm.nPage})
+								.then(function(data2){
+									vm.nextPage = getNextPage(data2.next);
+									vm.nextPage = (vm.previousPage > vm.nextPage) ? null : vm.nextPage;
+									vm.people = _.concat(firstTenResults, data2.plain().results);
 
-								_.forEach(vm.people, function(objv, objk){
-									_.forEach(objv, function(v,k) {
-										if(k==='url') {
-											var a = (v) ? v.split("/") : null;
-											objv.personId = a[5];
-										}
+									_.forEach(vm.people, function(objv, objk){
+										_.forEach(objv, function(v,k) {
+											if(k==='url') {
+												var a = (v) ? v.split("/") : null;
+												objv.personId = a[5];
+											}
+										});
 									});
 								});
-							})
-							.finally(stopLoading);
-						});
-						
+							} else {
+								vm.nextPage = null,
+								vm.people = firstTenResults;
+
+							}
+						})
+						.finally(stopLoading);						
 				};
 
 
