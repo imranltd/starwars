@@ -53,7 +53,6 @@
 
 				var LoadPreviousPage = function(){
 					//$scope..loading = true;
-					console.log('previousPage ' + vm.previousPage);
 					loadPage(vm.previousPage);
 				};
 
@@ -64,7 +63,7 @@
 					
 					Restangular.one("api").customGET("people", {page: pageNum})
 						.then(function(data){
-							vm.nPage = getNextPage(data.next);
+							vm.nPage = getNextPage((data.next)? data.next : null);
 							vm.previousPage = getPreviousPage(data.previous);
 							firstTenResults = data.plain().results;
 						})
@@ -72,6 +71,7 @@
 							Restangular.one("api").customGET("people", {page: vm.nPage})
 							.then(function(data2){
 								vm.nextPage = getNextPage(data2.next);
+								vm.nextPage = (vm.previousPage > vm.nextPage) ? null : vm.nextPage;
 								vm.people = _.concat(firstTenResults, data2.plain().results);
 
 								_.forEach(vm.people, function(objv, objk){
@@ -90,6 +90,7 @@
 
 
 				var getNextPage = function (nextPageLink){
+
 					var nextPageUrl = nextPageLink,
 						nextPageObj = (nextPageUrl) ? nextPageUrl.split("?") : null,
 						nextPageNum = (nextPageObj) ? nextPageObj[1].split("=") : null;
@@ -130,7 +131,6 @@
 						vm.loadingDetails = false;
 					});
 
-
 				};
 
 				var stopLoading = function(){
@@ -164,12 +164,6 @@
 				}
 			};
 		})
-		.controller('personController', ['$scope', 'Restangular', '_', '$routeParams',
-			function($scope, Restangular, _, $routeParams){
-				console.log('person');
-				console.dir($routeParams);
-			}
-		])
 		.directive('starwarsSearch', function() {
 			return {
 				restrict: 'E',
